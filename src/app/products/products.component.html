@@ -1,0 +1,49 @@
+<div class="card mt-3">
+  <div class="card-header">
+    <h3>Products list</h3>
+  </div>
+  <div class="card-body">
+    <form class="d-flex m-2" [formGroup]="searchForm" (ngSubmit)="handleGetPageProductsByName()">
+      <div class="col-6 me-2">
+        <input class="form-control" type="text" formControlName="keyword"/>
+      </div>
+      <button class="btn btn-primary btn-sm me-2">Search</button>
+      <button type="button" class="btn btn-primary btn-sm" routerLink="/admin/add-product">Add product</button>
+    </form>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Promotion</th>
+        <th scope="col">Promotion</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of  appStateservice.productsState.products">
+        <th>{{product.id}}</th>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>
+          <button *ngIf="product.promotion" class="btn btn-danger btn-sm" (click)="changePromotion(product.id)">Off
+          </button>
+          <button *ngIf="!product.promotion" class="btn btn-success btn-sm" (click)="changePromotion(product.id)">On
+          </button>
+        </td>
+        <td>
+          <button (click)="deleteProduct(product.id)" class="btn btn-danger btn-sm me-2"><i class="bi bi-trash"></i></button>
+          <button (click)="editProduct(product.id)" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li *ngFor="let item of [].constructor(appStateservice.productsState.totalPages), let i = index"
+            [ngClass]="appStateservice.productsState.page == i ? 'page-item active me-1' : 'page-item me-1'"><a class="page-link"
+                                                                        (click)="changePage(i)">{{i+1}}</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
